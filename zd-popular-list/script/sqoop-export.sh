@@ -1,0 +1,12 @@
+sqoop export \
+--connect "jdbc:mysql://114.115.209.140:13306/sw_private?useUnicode=true&characterEncoding=utf-8"  \
+--username root \
+--password  izhonghong@2016root123 \
+--table zhongda_popular_list \
+--num-mappers 1 \
+--export-dir /user/hive/warehouse/zhongda.db/ads_data/ \
+--input-fields-terminated-by "\001" \
+--update-mode allowinsert \
+--update-key "uid,created_day" \
+--input-null-string '\\N'    \
+--input-null-non-string '\\N';
