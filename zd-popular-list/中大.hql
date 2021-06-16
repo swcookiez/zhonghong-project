@@ -1,6 +1,5 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS zhongda.ods_data(
-json String
-)
+json String)
 partitioned by (created_day string)
 STORED AS TEXTFILE TBLPROPERTIES('parquet.compression'='SNAPPY')
 ;
@@ -99,16 +98,6 @@ sqoop export \
 --input-null-string '\\N'    \
 --input-null-non-string '\\N';
 
-
-
-
-
-
-
-
-
-
-
 #数据验证HQL
 select
 t2.uid,
@@ -133,7 +122,6 @@ from zhongda.ods_data where created_day = '2021-06-14')t1
 )t2
 where t2.rank = '1' and t2.uid = 'e9d01014580_null';
 
-
 select 
 t1.uid uid,
 t1.name name,
@@ -150,16 +138,3 @@ get_json_object(json,'$.created_at') created_at,
 get_json_object(json,'$.mid') mid
 from zhongda.ods_data where created_day = '2021-06-14')t1
 where t1.uid = '225c1004879_'
-
-
-
-
-
-
-
-
-
-
-
-
-
