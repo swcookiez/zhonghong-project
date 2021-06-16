@@ -1,0 +1,38 @@
+git status
+git add 将工作区的‘修改’添加到暂存区
+git commit -m 将暂存区的内容提交到本地库
+git log 查看历史记录主要显示commit的历史信息
+git reflog HEAD@移动到当前版本需要多少步
+git reset --hard '局部索引值'
+git reset --hard HEAD^  ^表示后退步数
+git reset --hard HEAD~2 2表示后退两步
+git reset 参数说明
+--soft 仅本地库移动HEAD指针
+--mixed soft基础上增加，重置暂存区
+--hard mixed基础上增加，重置工作区。意思是，会将工作区的文件改变到历史版本。
+git diff 将工作区的文件和暂存区进行比较
+git diff '局部索引值' '文件名'
+git branch '分支名' 创建分支
+git branch -v 查看分支
+git checkout '分支名' 切换分支
+
+#合并分支
+假设有两个分支:1.master 2.slave
+我在分支2，新增了内容：222
+现我切换到master分支
+git merge '有新内容分支'
+#分支冲突
+假设slave分支添加了内容 slave,slave并提交
+后切换到master分支添加了内容 master，master也提交
+此时使用git merge slave时会出现，conflicts错误
+#解决分支冲突
+1.删除特殊字符<<< >>>等等
+2.修改到满意保存退出
+3.git add '文件名'
+4.git commit -m '提交信息'    !!!注意不要带文件名
+
+#github-----------------------------------------------------
+git remote -v 查看远程地址别名
+git remote add '别名' '远程地址' 添加远程仓库别名
+git remote rm '别名'
+
