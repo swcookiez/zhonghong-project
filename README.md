@@ -1,3 +1,2 @@
 # zhonghong-project
-## my test
-## git command test 
+* 中大项目
