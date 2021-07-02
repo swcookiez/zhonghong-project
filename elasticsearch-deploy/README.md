@@ -11,7 +11,7 @@ zhonghong hard  memlock  unlimited
 *     soft   nofile   131072
 *     hard   nofile   131072
 ```
-#禁止使用交换内存
+## 禁止使用交换内存
 vim /etc/fstab<br>
 注释掉所要包含"swap"的行
 ## 虚拟内存大小
