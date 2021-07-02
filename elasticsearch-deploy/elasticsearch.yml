@@ -1,0 +1,104 @@
+# ---------------------------------- Cluster -----------------------------------
+# 集群名称
+cluster.name: data_flow_cluster
+# 节点名称
+node.name: node_01
+# 是否可以为主节点
+node.master: true
+# 是否可以为数据节点
+node.data: true
+# 允许在对文档进行索引之前进行预处理
+node.ingest: true
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+#
+# 数据存储目录，默认在es目录下data
+#path.data: /path/to/data
+#Path to log files:
+# 日志存储目录，默认在es目录下logs
+#path.logs: /path/to/logs
+# ----------------------------------- Memory -----------------------------------
+# Lock the memory on startup:
+# 锁定物理内存地址，防止es内存被交换出去，也就是避免es使用swap交换分区，频繁的交换，会导致IOPS变高
+bootstrap.memory_lock: true
+# 禁止检测SecComp
+bootstrap.system_call_filter: false
+# 当前机器ip地址，0.0.0.0 代表当前
+network.host: ecs-db-test-0001
+# 设置对外服务的http端口，默认为9200
+http.port: 9200
+# 设置节点间交互的tcp端口，默认是9300
+transport.tcp.port: 9300
+# 设置是否压缩tcp传输时的数据，默认为false，不压缩
+transport.tcp.compress: true
+# For more information, consult the network module documentation.
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.max_content_length: 200mb
+# --------------------------------- Discovery ----------------------------------
+#es7.x 之后新增的配置，初始化一个新的集群时需要此配置来选举master
+cluster.initial_master_nodes: ["node_01"]
+# 设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点
+discovery.zen.ping.unicast.hosts: ["ecs-db-test-0001:9300","ecs-db-test-0002:9300","ecs-db-test-0003:9300","ecs-db-test-0004:9300"]
+#
+# Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
+#
+# 设置这个参数来保证集群中的节点可以知道其它N个有master资格的节点。默认为1，(total number of master-eligible nodes / 2 + 1)
+discovery.zen.minimum_master_nodes: 1
+#
+# For more information, consult the zen discovery module documentation.
+#
+# ---------------------------------- Gateway -----------------------------------
+#
+# Block initial recovery after a full cluster restart until N nodes are started:
+#
+#gateway.recover_after_nodes: 3
+#
+# For more information, consult the gateway module documentation.
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Require explicit names when deleting indices:
+#
+#action.destructive_requires_name: true
+# ---------------------------------- Cache  -----------------------------------
+# 字段数据缓存占用堆内存大小限制
+#indices.fielddata.cache.size: 38%
+# 启用脚本 默认painless
+cluster.routing.allocation.same_shard.host: true
+#
+# TODO 集群搭建好后配置
+#
+#
+# #超时时间
+discovery.zen.ping_timeout: 5s
+discovery.zen.fd.ping_timeout: 5s
+#
+# #禁止自动创建索引
+#action.auto_create_index: false
+#
+# # 一个集群中的N个节点启动后,才允许进行恢复处理 
+gateway.recover_after_nodes: 2
+# #
+# # 设置初始化恢复过程的超时时间,超时时间从上一个配置中配置的N个节点启动后算起 
+gateway.recover_after_time: 5m 
+# #
+# # 设置这个集群中期望有多少个节点.一旦这N个节点启动(并且recover_after_nodes也符合), 
+# # 立即开始恢复过程(不等待recover_after_time超时) 
+gateway.expected_nodes: 2
+# # 线程池  
+thread_pool.search.size: 100  
+thread_pool.search.queue_size: 1000 
+## 写入配置
+#indices.memory.index_buffer_size: 2048mb
+indices.memory.index_buffer_size: 20%
+indices.memory.min_index_buffer_size: 96mb
+thread_pool.write.queue_size: 1000
+#index.refresh_interval: 40s
+#集群内同时启动的数据任务个数，默认是2个
+cluster.routing.allocation.cluster_concurrent_rebalance: 16
+#添加或删除节点及负载均衡时并发恢复的线程个数，默认4个
+cluster.routing.allocation.node_concurrent_recoveries: 16
+#初始化数据恢复时，并发恢复线程的个数，默认4个
+cluster.routing.allocation.node_initial_primaries_recoveries: 16
