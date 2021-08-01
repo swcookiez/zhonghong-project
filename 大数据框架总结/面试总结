@@ -61,9 +61,17 @@ ads
 查询商品行为宽比，按照日下单量进行排序倒序取前十 => select * from a sort by order_num limit 10
 
 10).flink优化：
-
+1.减少redistribution算子，让多个算子间尽量形成任务链。任务链的好处：减少线程的切换和基于缓存的数据交换。
+2.合理设置checkpoint间隔、checkpoint超时时间
+3.调大算子并行度
+4.增加taskmanager内存大小、数量
 11).要求城市下区的人数，如何计算。
-
+这种我们可以做一张大宽表
+分组粒度为区 => 得到统计结果例如：
+SELECT city,area,COUNT() co FROM tableA GROUP BY city,area     => tableB
+深圳,福田区,10
+深圳,保安区,12
+做城市统计子查询(行转列) => select city,sum(co) collect_set(concat_ws(",",area,cast co AS STRING)) FROM tableB GROUP BY city
 
 
 
