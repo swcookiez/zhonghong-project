@@ -12,9 +12,12 @@ git reset 参数说明
 --hard mixed基础上增加，重置工作区。意思是，会将工作区的文件改变到历史版本。
 git diff 将工作区的文件和暂存区进行比较
 git diff '局部索引值' '文件名'
+#git 分支
 git branch '分支名' 创建分支
 git branch -v 查看分支
 git checkout '分支名' 切换分支
+#创建新分支后以 git remote '分支名' '新分支名',如果远程没有该分支就会创建该分支
+
 
 #git 删除
 git rm 'flieName'
